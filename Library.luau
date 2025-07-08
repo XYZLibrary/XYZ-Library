@@ -623,20 +623,18 @@ function Library:Load(Type: string)
 	local Exploits = {
 
 		["dex"] = function()
-			return game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua")
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua"))()
 		end,
 
 		["infinite yield"] = function()
-			return game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
 		end,
 
 	}
 	
 	if Exploits[Type:lower()] then
 		
-		local Executed, Result = pcall(function()
-			loadstring(Exploits[Type:lower()])()
-		end)
+		local Executed, Result = pcall(Exploits[Type:lower()])
 		
 		if Executed then
 			
