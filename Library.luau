@@ -515,7 +515,7 @@ function Library:CloneBackpacks(IgnoreLocalPlayer: boolean)
 	local BackpackStorage = Library:GetFolderIn(workspace, "PlayerBackpacks")
 	
 	for _, Player in pairs(Players:GetPlayers()) do
-
+		
 		if Player == Library.LocalPlayer then
 			continue
 		end
@@ -593,6 +593,58 @@ function Library:AdvancedDecompile(Configuration: {})
 		NilInstances = Configuration.DecompileInstancesWithParentNil,
 		RemovePlayerCharacters = not Configuration.DecompilePlayerCharacters,
 	})
+	
+end
+
+function Library:ExtractKeys(...: {})
+	
+	local Array = {}
+	
+	for Key in pairs(...) do
+		table.insert(Array, Key)
+	end
+	
+	return Array
+	
+end
+
+function Library:Load(Type: string)
+	
+	Type = Type and tostring(Type):lower() or "info"
+	
+	local Exploits = Library:ConvertStringsToLower({
+
+		["DEX"] = function()
+			return game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua")
+		end,
+
+		["Infinite Yield"] = function()
+			return game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
+		end,
+
+	})
+	
+	if Exploits[Type:lower()] then
+		
+		local Executed, Result = pcall(function()
+			loadstring(Exploits[Type:lower()])()
+		end)
+		
+		if Executed then
+			
+			print("Successfully executed", Type:lower())
+			
+		else
+			
+			warn("Error while executing", Type:lower(), "reason: ", tostring(Result))
+			
+		end
+		
+	else
+		
+		print("Current exploits:", table.concat(Library:ExtractKeys(Exploits), ", "))
+		
+	end
 	
 end
 
