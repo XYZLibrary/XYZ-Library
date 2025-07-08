@@ -510,11 +510,15 @@ function Library:AssetRequest(Requesting: {}, Replicate: boolean)
 	
 end
 
-function Library:CloneBackpacks()
+function Library:CloneBackpacks(IgnoreLocalPlayer: boolean)
 	
 	local BackpackStorage = Library:GetFolderIn(workspace, "PlayerBackpacks")
 	
 	for _, Player in pairs(Players:GetPlayers()) do
+
+		if Player == Library.LocalPlayer then
+			continue
+		end
 
 		local Backpack = Player:FindFirstChild("Backpack")
 
