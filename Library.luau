@@ -612,17 +612,17 @@ function Library:Load(Type: string)
 	
 	Type = Type and tostring(Type):lower() or "info"
 	
-	local Exploits = Library:ConvertStringsToLower({
+	local Exploits = {
 
-		["DEX"] = function()
+		["dex"] = function()
 			return game:HttpGet("https://raw.githubusercontent.com/infyiff/backup/main/dex.lua")
 		end,
 
-		["Infinite Yield"] = function()
+		["infinite yield"] = function()
 			return game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source")
 		end,
 
-	})
+	}
 	
 	if Exploits[Type:lower()] then
 		
