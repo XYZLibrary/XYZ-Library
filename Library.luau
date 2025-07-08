@@ -4,7 +4,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
 local Library = {
-	WorkspaceReplicationConnection = nil
+	WorkspaceReplicationConnection = nil,
+	RepConnection = false
 }
 
 Library.LocalPlayer = LocalPlayer
@@ -478,11 +479,15 @@ function Library:AssetRequest(Requesting: {}, Replicate: boolean)
 	
 	assert(type(Requesting) == "table", ":AssetRequest(), Please provide a table with items you want to request.")
 	
-	if not Replicate and Library.WorkspaceReplicationConnection then
+	if not Replicate and Library.RepConnection then
+		
+		Library.RepConnection = false
 		
 		Library.WorkspaceReplicationConnection:Disconnect()
 		
-	elseif not Library.WorkspaceReplicationConnection then
+	elseif Replicate and not Library.RepConnection then
+		
+		Library.RepConnection = true
 		
 		Library.WorkspaceReplicationConnection = LocalPlayer.PlayerGui:WaitForChild("ReplicatedAssets").ChildAdded:Connect(function(Child: Instance)
 
