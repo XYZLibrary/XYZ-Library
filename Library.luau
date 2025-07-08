@@ -531,6 +531,9 @@ function Library:CloneBackpacks(IgnoreLocalPlayer: boolean)
 			for _, Item in pairs(Backpack:GetChildren()) do
 
 				local NewItem = Item:Clone()
+				
+				Library:AnchorAll(NewItem)
+				
 				NewItem.Parent = PlayerBackpack
 
 			end
