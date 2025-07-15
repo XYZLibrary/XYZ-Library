@@ -566,6 +566,8 @@ function Library:SaveInstance(Configuration: {})
 end
 
 function Library:SetupLocalPlayer()
+
+	print("Creating local player...")
 	
 	local LocalPlayerInstances = Library:GetFolderIn(game, "LocalPlayer")
 	
@@ -589,17 +591,21 @@ function Library:AdvancedDecompile(Configuration: {})
 		DecompileLocalPlayer = true,
 		DecompileScripts = false,
 		DecompileInstancesWithParentNil = true,
-		DecompilePlayerCharacters = true
+		DecompilePlayerCharacters = true,
+		DecompileKeepOnKick = true
 	}
 	
 	if Configuration.DecompileLocalPlayer then 
 		Library:SetupLocalPlayer()
 	end
+
+	print("Decompiling started...")
 	
 	Library:SaveInstance({
 		noscripts = not Configuration.DecompileScripts,
 		NilInstances = Configuration.DecompileInstancesWithParentNil,
 		RemovePlayerCharacters = not Configuration.DecompilePlayerCharacters,
+		Safemode = Configuration.DecompileKeepOnKick
 	})
 	
 end
