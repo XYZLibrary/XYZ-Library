@@ -569,11 +569,20 @@ function Library:SetupLocalPlayer()
 
 	print("Creating local player...")
 	
-	local LocalPlayerInstances = Library:GetFolderIn(game, "LocalPlayer")
+	local LocalPlayerInstances = Library:GetFolderIn(workspace, "LocalPlayer")
 	
 	for _, Object in pairs(game:GetService("Players").LocalPlayer:GetChildren()) do
 
-		local ObjectStorage = Library:GetFolderIn(LocalPlayerInstances, Object.Name)
+		local Success, ObjectStorage = pcall(function()
+			return Instance.new(Object.ClassName)
+		end)
+
+		if Success and ObjectStorage then
+			ObjectStorage.Name = Object.Name
+			ObjectStorage.Parent = LocalPlayerInstances
+		else
+			ObjectStorage = Library:GetFolderIn(LocalPlayerInstances, Object.Name)
+		end
 
 		for _, Child in pairs(Object:GetChildren()) do
 
